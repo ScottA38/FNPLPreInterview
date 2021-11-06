@@ -6,4 +6,9 @@
     <RootNamespace>fnpl_pre_inteview</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="license.txt" />
+    <None Remove="README.md" />
+    <None Remove=".gitignore" />
+  </ItemGroup>
 </Project>
