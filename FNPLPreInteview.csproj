@@ -5,6 +5,11 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>FNPLPreInteview</RootNamespace>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +17,30 @@
     <None Remove="README.md" />
     <None Remove=".gitignore" />
     <None Remove="NUnit" />
+    <None Remove="NUnitTests\files\" />
+    <None Remove="files\" />
+    <None Remove="EncodingProvider\" />
+    <None Remove="Encoding\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NUnitTests\files\" />
+    <Folder Include="files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="NUnitTests\files\incorrect_encoding.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NUnitTests\files\test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="files\incorrect_encoding.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="files\test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
