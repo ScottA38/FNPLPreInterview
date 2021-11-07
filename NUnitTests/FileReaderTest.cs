@@ -2,16 +2,13 @@
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Runtime;
 using FNPLPreInteview;
-namespace Tests
+namespace NUnitTests
 {
-    [TestFixture()]
+    [TestFixture]
     public class FileReaderTest
     {
         protected FileReader sampleFileReader;
-
-        protected FileReader errorFileReader;
 
         protected readonly string validBasePath = "NUnitTests/files";
 
@@ -22,12 +19,7 @@ namespace Tests
         [SetUp]
         public void init()
         {
-            projectRoot = AppContext.BaseDirectory;
             sampleFileReader = new FileReader(validFileName, validBasePath);
-            try
-            {
-                errorFileReader = new FileReader("invalid", "invalid");
-            } catch { }
         }
 
         [Test]

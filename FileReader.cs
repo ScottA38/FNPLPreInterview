@@ -30,7 +30,8 @@ namespace FNPLPreInteview
          * <exception cref="InvalidOperationException">Throws exception when file
          * parameters do not meet requirements</exception>
          * <exception cref="FileNotFoundException">Incorrect file name</exception>
-         * <exception cref="DirectoryNotFoundException">Incorrect basePath parameter</exception>
+         * <exception cref="DirectoryNotFoundException">Incorrect basePath 
+         * parameter</exception>
          */
         public FileReader(string fileName, string basePath)
         {
@@ -59,9 +60,9 @@ namespace FNPLPreInteview
         }
 
         /**
-         * <remarks>This was adapted from https://stackoverflow.com/a/19283954/8814328
-         * due to the fact that System.IO.StreamReader.CurrentEncoding() is
-         * unreliable</remarks>
+         * <remarks>This was adapted from 
+         * https://stackoverflow.com/a/19283954/8814328 due to the fact that 
+         * System.IO.StreamReader.CurrentEncoding() is unreliable</remarks>
          * <param name="filePath"/>
          * <returns>System.Text.Encoding</returns>
          */
