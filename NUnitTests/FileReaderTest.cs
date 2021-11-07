@@ -2,8 +2,8 @@
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Runtime;
 using FNPLPreInteview;
-
 namespace Tests
 {
     [TestFixture()]
@@ -13,13 +13,16 @@ namespace Tests
 
         protected FileReader errorFileReader;
 
-        protected readonly string validBasePath = "files";
+        protected readonly string validBasePath = "NUnitTests/files";
 
         protected readonly string validFileName = "test";
 
-        [SetUp()]
+        public string projectRoot;
+
+        [SetUp]
         public void init()
         {
+            projectRoot = AppContext.BaseDirectory;
             sampleFileReader = new FileReader(validFileName, validBasePath);
             try
             {
@@ -27,40 +30,62 @@ namespace Tests
             } catch { }
         }
 
-        [Test()]
+        [Test]
         public void constructorAcceptsValidFilenameAndBasePath()
         {
+            string basePath = projectRoot + validBasePath;
             Assert.DoesNotThrow(
-                () => { new FileReader(validFileName, validBasePath); }
+                () => { new FileReader(this.validFileName, basePath); }
             );
         }
 
-        [Test()]
+        [Test]
         public void constructorDoesNotAcceptInvalidFileName()
         {
-            Assert.Throws<FileLoadException>(
+            Assert.Throws<FileNotFoundException>(
                 () => { new FileReader("invalid", validBasePath); }
             );
         }
 
-        [Test()]
+        [Test]
         public void constructorDoesNotAcceptInvalidBasePath()
         {
-            Assert.Throws<FileLoadException>(
+            Assert.Throws<DirectoryNotFoundException>(
                 () => { new FileReader(validFileName, "invalid"); }
             );
         }
 
-        [Test()]
+        [Test]
         public void providesFileContentsForValidPath()
         {
             Assert.IsInstanceOf<string>(sampleFileReader.FileContents);
         }
 
-        [Test()]
-        public void providesNullFileContentsForInvalidPath()
+        [Test]
+        public void constrcutorAllowsCorrectEncoding()
         {
-            Assert.IsNull(errorFileReader.FileContents);
+            string utf8File = validFileName;
+            string basePath = validBasePath;
+
+            try {
+                new FileReader(utf8File, basePath);
+            } catch (FileLoadException) {
+                Assert.Fail();
+            };
+
+            // Would expect a FileLoadException if encoding were incorrect
+            Assert.Pass();
+        }
+            
+        [Test]
+        public void constructorDoesNotAcceptInvalidEncoding()
+        {
+            string asciiFile = "incorrect_encoding";
+            string basePath = validBasePath;
+
+            Assert.Throws<InvalidOperationException>(
+                () => { new FileReader(asciiFile, basePath); }
+            );
         }
     }
 }
