@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTests", "NUnitTests\NUnitTests.csproj", "{C7CC36E3-7B2E-43A1-B48F-39C69C78B116}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,5 +22,16 @@ Global
 		{7F055AAF-4E72-4A1C-A897-43B74C423418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F055AAF-4E72-4A1C-A897-43B74C423418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F055AAF-4E72-4A1C-A897-43B74C423418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CC36E3-7B2E-43A1-B48F-39C69C78B116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CC36E3-7B2E-43A1-B48F-39C69C78B116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CC36E3-7B2E-43A1-B48F-39C69C78B116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CC36E3-7B2E-43A1-B48F-39C69C78B116}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.StandardHeader = $2
+		$0.VersionControlPolicy = $3
 	EndGlobalSection
 EndGlobal
