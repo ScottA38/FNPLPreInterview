@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using System.IO;
+using System.Linq;
 using FNPLPreInteview;
 namespace NUnitTests
 {
@@ -9,25 +9,20 @@ namespace NUnitTests
     {
         protected StreamParser streamParser;
 
-        protected readonly string[] validSymbols = {
-            "$","+","<","=",">","^","`","|","~","¢","£","¤","¥","¦","¨","©","¬",
-            "®","¯","°","±","´","¸","×","÷"
+        protected readonly char[] validSymbols = {
+            '$','+','<','=','>','^','`','|','~','¢','£','¤','¥','¦','¨','©','¬',
+            '®','¯','°','±','´','¸','×','÷'
         };
 
-        protected readonly string[] validPunctuation = {
-            "!","\"","#","%","&","\"","(",")","*",",","-",".","/",":",";","?",
-            "@","[","\\","]","_","{","}","¡","§","«","¶","·","»","¿"
+        protected readonly char[] validPunctuation = {
+            '!','\\','#','%','&','\'','(',')','*',',','-','.','/',':',';','?',
+            '@','[','\\',']','_','{','}','¡','§','«','¶','·','»','¿'
         };
 
-        protected readonly string[] validLetters =
+        protected readonly char[] validLetters =
         {
-            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q",
-            "R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h",
-            "i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y",
-            "z","ª","µ","º","À","Á","Â","Ã","Ä","Å","Æ","Ç","È","É","Ê","Ë","Ì",
-            "Í","Î","Ï","Ð","Ñ","Ò","Ó","Ô","Õ","Ö","Ø","Ù","Ú","Û","Ü","Ý","Þ",
-            "ß","à","á","â","ã","ä","å","æ","ç","è","é","ê","ë","ì","í","î","ï",
-            "ð","ñ","ò","ó","ô","õ","ö","ø","ù","ú","û","ü","ý","þ"
+            'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+            'r','s','t','u','v','w','x','y','z'
         };
 
         [SetUp]
@@ -42,26 +37,91 @@ namespace NUnitTests
         {
             FileReader fileReader = new FileReader("test", "files");
             Assert.DoesNotThrow(
-                () => { FileReader fileReader = new FileReader("test", "files"); }
+                () => { new StreamParser(fileReader); }
             );
         }
 
         [Test]
-        public void recognisesCorrectSymbols()
+        public void correctlySortsStream()
         {
-            
+            string expected = @"!!$$$$$'')),,::::???@@aaaaaaaaaaacccccddddddeeeeeeeeeeeeeeeeeeeeeeefffgggghhhhhhhiiiiiiiiiiiiiiiiiiiiijkkkkllllmmmmmmmmmmnnnnnnnnnnnnnoooooooooooooooooppppprrrrrrrrrrsssssssssttttttttttttttttttuuuuuuuuuvvvwwwxxyyyy¢£¤¥";
+
+            Assert.AreEqual(expected, streamParser.ToString());
         }
 
         [Test]
-        public void recognisesCorrectLetters()
+        public void canFindNonRepeatingChar()
         {
+            FileReader fileReader = new FileReader("non-repeat", "files");
+            StreamParser newStream = new StreamParser(fileReader);
+            char[] nonRepeat = newStream.getNonRecurring("punctuation");
 
+            Assert.Contains('!', nonRepeat);
+            foreach (char character in nonRepeat)
+            {
+                Assert.Contains(character, validPunctuation);
+            }
         }
 
         [Test]
-        public void recognisesCorrectPunctuation()
+        public void canFindMostRepeatingLetter()
         {
+            Assert.AreEqual(new char[] { 'e' }, streamParser.getMostRecurring("letter"));
+        }
 
+        [Test]
+        public void canFindLeastRepeatingLetter()
+        {
+            Assert.AreEqual(new char[] { 'j' }, streamParser.getLeastRecurring("letter"));
+        }
+
+        [Test]
+        public void canFindNonRepeatingSymbol()
+        {
+            char[] symbolsExpected = new char[] { '¢', '£', '¤', '¥' };
+            int symbolsIntersectionCount = streamParser
+                .getNonRecurring("symbol").Count();
+
+            Assert.AreEqual(symbolsExpected.Count(), symbolsIntersectionCount);
+        }
+
+        [Test]
+        public void canFindMostRepeatingSymbol()
+        {
+            Assert.AreEqual(new char[] { '$' }, streamParser.getMostRecurring("symbol"));
+        }
+
+        [Test]
+        public void canFindLeastRepeatingSymbol()
+        {
+            char[] symbolsExpected = new char[] { '¢', '£', '¤', '¥' };
+            int symbolsIntersectionCount = streamParser
+                .getLeastRecurring("symbol").Count();
+
+            Assert.AreEqual(symbolsExpected.Count(), symbolsIntersectionCount);
+        }
+
+        [Test]
+        public void canFindNonRepeatingPunctuation()
+        {
+            Assert.IsEmpty(streamParser.getNonRecurring("punctuation"));
+        }
+
+        [Test]
+        public void canFindMostRepeatingPunctuation()
+        {
+            Assert.AreEqual(new char[] { ':' }, streamParser.getMostRecurring("punctuation"));
+        }
+
+        [Test]
+        public void canFindLeastRepeatingPunctuation()
+        {
+            char[] expected = new char[] { '\'', '@', ')', ',', '!' };
+            int intersectionCount = streamParser
+                .getLeastRecurring("punctuation").Intersect(expected)
+                .Count();
+
+            Assert.AreEqual(expected.Count(), intersectionCount);
         }
     }
 }

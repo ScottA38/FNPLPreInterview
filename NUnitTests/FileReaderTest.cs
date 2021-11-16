@@ -10,11 +10,9 @@ namespace NUnitTests
     {
         protected FileReader sampleFileReader;
 
-        protected readonly string validBasePath = "NUnitTests/files";
+        protected readonly string validBasePath = "files";
 
         protected readonly string validFileName = "test";
-
-        public string projectRoot;
 
         [SetUp]
         public void init()
@@ -25,9 +23,9 @@ namespace NUnitTests
         [Test]
         public void constructorAcceptsValidFilenameAndBasePath()
         {
-            string basePath = projectRoot + validBasePath;
+            string basePath = validBasePath;
             Assert.DoesNotThrow(
-                () => { new FileReader(this.validFileName, basePath); }
+                () => { new FileReader(validFileName, basePath); }
             );
         }
 
@@ -50,7 +48,7 @@ namespace NUnitTests
         [Test]
         public void providesFileContentsForValidPath()
         {
-            Assert.IsInstanceOf<string>(sampleFileReader.FileContents);
+            Assert.IsInstanceOf<string>(sampleFileReader.ToString());
         }
 
         [Test]
@@ -77,6 +75,17 @@ namespace NUnitTests
 
             Assert.Throws<InvalidOperationException>(
                 () => { new FileReader(asciiFile, basePath); }
+            );
+        }
+
+        [Test]
+        public void constructorDoesNotAcceptInvalidCharacters()
+        {
+            string illegalFile = "invalid_chars";
+            string basePath = validBasePath;
+
+            Assert.Throws<InvalidDataException>(
+                () => { new FileReader(illegalFile, basePath); }
             );
         }
     }

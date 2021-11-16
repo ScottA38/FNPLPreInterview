@@ -32,6 +32,8 @@ namespace FNPLPreInteview
          * <exception cref="FileNotFoundException">Incorrect file name</exception>
          * <exception cref="DirectoryNotFoundException">Incorrect basePath 
          * parameter</exception>
+         * <exception cref="InvalidDataException">Illegal chars found in 
+         * input</exception>
          */
         public FileReader(string fileName, string basePath)
         {
@@ -45,7 +47,18 @@ namespace FNPLPreInteview
             }
 
             fileContents = File.ReadAllText(filePath);
+            char[] illegalChars = fileContents.ToCharArray()
+                .Where(checkCharacter).ToArray(); ;
 
+            if (fileContents.Length == 0)
+            {
+                throw new InvalidDataException($"No content found in filepath ${filePath}");
+            }
+            else if (illegalChars.Length > 0)
+            {
+                throw new InvalidDataException($"Illegal chars '${new string(illegalChars)}' " +
+                    $"found in input file. See README.md for input file specifications");
+            }
         }
 
 
@@ -60,11 +73,8 @@ namespace FNPLPreInteview
         }
 
         /**
-         * <remarks>This was adapted from 
-         * https://stackoverflow.com/a/19283954/8814328 due to the fact that 
-         * System.IO.StreamReader.CurrentEncoding() is unreliable</remarks>
-         * <param name="filePath"/>
-         * <returns>System.Text.Encoding</returns>
+         * Verifies that no illegal characters are present
+         * <param name="filePath">The location of the file to inspect</param>
          */
         protected static Encoding readEncoding(string filePath)
         {
@@ -75,7 +85,7 @@ namespace FNPLPreInteview
                 file.Read(bom, 0, 4);
             }
 
-            foreach(KeyValuePair<Encoding, byte[]>encoding in encodingMap)
+            foreach (KeyValuePair<Encoding, byte[]> encoding in encodingMap)
             {
                 if (
                     Enumerable.Count(encoding.Value.Intersect(bom)) == encoding.Value.Length
@@ -87,7 +97,20 @@ namespace FNPLPreInteview
             return Encoding.ASCII;
         }
 
-        public string FileContents { get => fileContents; }
+        /**
+         * Test that a single character meets conditions
+         */
+        private static bool checkCharacter(char character)
+        {
+            return !char.IsSymbol(character)
+                    && !char.IsPunctuation(character)
+                    && (character < 97 || character > 122);
+        }
+
+        public override string ToString()
+        {
+            return fileContents;
+        }
 
         public string FilePath { get => filePath; }
     }
