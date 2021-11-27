@@ -7,9 +7,9 @@ namespace FNPLPreInteview
 {
     public class FileReader
     {
-        public readonly string fileExtension = ".txt";
+        public static readonly string fileExtension = ".txt";
 
-        public readonly string[] acceptedEncodings = { Encoding.UTF8.EncodingName };
+        public static readonly string[] acceptedEncodings = { Encoding.UTF8.EncodingName };
 
         protected string filePath;
 
@@ -48,7 +48,7 @@ namespace FNPLPreInteview
 
             fileContents = File.ReadAllText(filePath);
             char[] illegalChars = fileContents.ToCharArray()
-                .Where(checkCharacter).ToArray(); ;
+                .Where(checkCharacter).ToArray();
 
             if (fileContents.Length == 0)
             {

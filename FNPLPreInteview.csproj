@@ -10,7 +10,9 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
 
   <ItemGroup>
     <None Remove="license.txt" />
@@ -21,9 +23,9 @@
     <None Remove="files\" />
     <None Remove="EncodingProvider\" />
     <None Remove="Encoding\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.12.0" />
+    <None Remove="NDesk.Options" />
+    <None Remove="Mono.Options" />
+    <None Remove="SourceLink.Create.CommandLine" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NUnitTests\files\" />
@@ -48,5 +50,17 @@
     <None Update="files\invalid_chars.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
+   </ItemGroup>
+   <ItemGroup>
+       <PackageReference Include="NUnit" Version="3.13.2" />
+       <PackageReference Include="NDesk.Options" Version="0.2.1" />
+       <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3">
+         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+         <PrivateAssets>all</PrivateAssets>
+       </PackageReference>
+   </ItemGroup>
+   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+   </ItemGroup>
 </Project>
